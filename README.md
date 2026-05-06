@@ -1,60 +1,74 @@
-# Email Scraping Automation Project
+# AI-Powered Email Scraping & Summarization Automation
 
-## Overview
-
-This project automates the process of **email scraping** using **n8n**, an open-source workflow automation tool. It allows you to extract email addresses from various data sources (web pages, text files, or APIs) automatically. This workflow is designed to streamline data collection, making it ideal for tasks such as **lead generation**, **contact list building**, and **gathering email data** from various online sources.
-
----
-
-## Features
-
-- **Automated Email Scraping**: Automatically scrape email addresses from various input sources like web pages, text, or APIs.
-- **Third-Party Integration**: Seamlessly integrate with multiple platforms and data sources (e.g., Gmail, APIs, HTTP requests).
-- **Customizable Workflow**: Easily configure the scraping logic to target specific patterns or domains for emails.
-- **Efficient Data Collection**: Quickly process and store email data from multiple sources with minimal manual intervention.
-- **Output Flexibility**: Export data to various formats and destinations, including Google Sheets, databases, or CSV files.
+- **Full Name:** Muhammad Alber
+- **Student ID:** su92-bscsm-f23-353
+- **Section:** BSCS-6A
 
 ---
 
-## Prerequisites
+## 🚀 Overview
 
-To run this project, ensure you have the following installed and configured:
+This repository contains a high-performance **n8n Automation Workflow** designed to streamline email processing. The system automatically scrapes incoming emails from a Gmail inbox, analyzes the content and length, processes entire email threads, and utilizes **OpenAI's Large Language Models (LLMs)** via **Langchain** to generate intelligent summaries of long email chains. The processed data, along with thread analytics and AI summaries, is automatically aggregated and logged into structured **Google Sheets** for reporting and business intelligence.
 
-1. **n8n**: Follow the official [n8n installation guide](https://n8n.io/docs/installation/) to set up n8n on your system.
-2. **n8n Basic Knowledge**: Basic understanding of how n8n workflows work and the nodes involved.
-3. **API Keys/Access**: For integrations (like Gmail or third-party services), you will need API keys or access tokens.
+This project demonstrates strong capabilities in:
+- **Workflow Automation & Orchestration (n8n)**
+- **API Integrations** (Google Workspace, OpenAI)
+- **Data Engineering & ETL** (Extract, Transform, Load)
+- **AI Agent Integration** for Natural Language Processing
+
+## 🏗 Technical Stack
+
+- **n8n:** Core workflow automation platform.
+- **Gmail API:** For extracting emails, thread IDs, and parsing message payloads.
+- **Google Sheets API:** Serving as the structured database for final data aggregation.
+- **OpenAI (gpt-4o-mini):** For intelligent text summarization.
+- **Langchain:** Orchestrating the AI agent to extract structured JSON (Summarized body & Thread ID).
+- **JavaScript (Node.js):** Custom code nodes for data transformation, header extraction, and length evaluation.
+
+## 🔄 Workflow Architecture
+
+The automation follows a parallel-processing approach:
+
+1. **Trigger & Fetch:** The workflow initializes and fetches unread/inbox emails via the Gmail node.
+2. **Text Analysis & Routing:** Custom JavaScript code evaluates the length of the email text. 
+   - If the text is exceedingly long, it flags the email for AI summarization.
+   - It also extracts unique Thread IDs to group conversations.
+3. **AI Summarization Pipeline:** An AI Agent receives the email content with a strict prompt to summarize the thread focusing on key decisions and action items, returning structured JSON.
+4. **Thread Processing Pipeline:** Concurrently, the workflow retrieves full thread data, combining messages (up to 500 per thread), calculating character counts, and extracting timestamps.
+5. **Data Merge & Aggregation:** The AI summaries and the raw thread data are merged using the `Thread ID` as the primary key.
+6. **Storage:** The final, enriched datasets are exported to targeted Google Sheets for analytics and record-keeping.
+
+## 📂 Repository Structure
+
+```text
+n8n-Automations/
+├── workflows/
+│   ├── Email_Scraping_Automation_Org.json      # Main production workflow
+│   ├── Email_Scraping_Automation_Testing.json  # Staging/Testing environment workflow
+│   └── Development_Version.json                # Legacy/development iteration
+├── assets/
+│   ├── workflow-overview.png                   # High-level view of the n8n nodes
+│   ├── successful-execution.png                # Execution logs and data flow
+│   └── workflow-details.png                    # Detailed view of AI & Merge logic
+├── samples/
+│   └── output.json                             # Sample data output from the automation
+└── README.md                                   # Project documentation
+```
+
+## 📸 Workflow Visuals
+
+### 1. High-Level Workflow Overview
+An architectural view of the n8n nodes working in harmony.
+![Workflow Overview](assets/workflow-overview.png)
+
+### 2. Successful Execution & Data Flow
+Real-time execution logs demonstrating the successful parsing and routing of over 1,500 items.
+![Successful Execution](assets/successful-execution.png)
+
+### 3. AI Agent & Merge Logic Details
+Close-up on the Langchain AI Agent processing text and merging endpoints before exporting to Google Sheets.
+![Workflow Details](assets/workflow-details.png)
 
 ---
-## Workflow Overview
 
-The **Email Scraping Workflow** contains the following key stages:
-
-- **Trigger Node**: Defines the starting point of the workflow, which could be time-based, event-driven, or manual.
-- **Scraping Nodes**: Nodes responsible for extracting email addresses from provided data sources (like websites, text, or APIs).
-- **Data Processing**: Cleans and validates the scraped emails (e.g., removing duplicates, checking for valid email formats).
-- **Output Nodes**: Stores the final results in the desired location (Google Sheets, databases, CSV files, etc.).
-
----
-
-## Usage
-
-### Run the Workflow
-
-- **Manually Triggered**: You can start the workflow at any time through the n8n UI or configure a trigger for automatic execution.
-- **Monitor the Process**: You can monitor the workflow logs within the n8n dashboard to track the progress and troubleshoot any issues.
-
----
-
-## Sample Output
-
-Once the workflow runs, you’ll have the following options for viewing and using the data:
-
-- **Google Sheets**: The scraped emails can be exported directly to Google Sheets.
-- **CSV Files**: The emails can also be saved as CSV files for easy download and usage.
-- **Databases**: For more complex workflows, emails can be pushed into databases for further processing.
-
----
-
-## Contributing
-
-We welcome contributions! If you’d like to help improve this project, feel free to fork the repository and submit a pull request. Contributions can include bug fixes, new features, or improvements to the documentation.
+*This project highlights modern full-stack development practices, focusing on stability, efficient API pathing, and production-first automation design.*
